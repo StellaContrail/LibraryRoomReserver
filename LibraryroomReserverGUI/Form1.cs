@@ -33,8 +33,7 @@ namespace LibraryroomReserverGUI
             // Navigate to login form
             WebBrowser.Navigate(new Uri("https://opac.lib.niigata-u.ac.jp/portal/portal/portalBoothStatus/?lang=ja&roomGroupId=01"));
         }
-
-        int pageStep = 0;
+        
         LibraryPageHandler handler = new LibraryPageHandler();
         HtmlParser parser = new HtmlParser();
 
@@ -109,57 +108,6 @@ namespace LibraryroomReserverGUI
                     handler.InvokeScript(doc, "doSearch", "/portal/myl/scMylBO002/doForwardSearch");
                 */
             }
-
-            #region OldCodes
-            /*
-            switch (pageStep)
-            {
-                case 0:
-                    handler.Login(doc, data.id, data.pass);
-                    break;
-                case 1:
-                    handler.InvokeScript(doc, "doSelectMainMenu", "/portal/admin/selectMenu/doSelectPublicUseMainMenu", 11, "");
-                    break;
-                case 2:
-                    handler.InvokeScript(doc, "doFwdNewReserveProc", "/portal/myl/scMylBO001/doForwardNewRequest");
-                    break;
-                    
-                case 3:
-                    handler.ApplyReservationData(doc, data);
-                    handler.InvokeScript(doc, "doFwdProc", "/portal/myl/scMylBO011/doForwardConfirm");
-                    break;
-                case 4:
-                    var errors = FetchErrors(WebBrowser.DocumentText);
-                    if (errors != null)
-                    {
-                        foreach (Error error in errors)
-                        {
-                            MessageBox.Show($"Error：{error.Time} {error.Date}\n{error.Reason}");
-                        }
-                        // エラーが発生した日の取得可能時間帯を知りたい
-                        Logout(doc, WebBrowser.DocumentText);
-                        
-
-                        //Application.Exit();
-                    }
-                    else
-                    {
-                        //handler.CheckAvailableReservations(doc);
-                        //handler.InvokeScript(doc, "doFwdProc", "/portal/myl/scMylBO012/doForwardConfirmate");
-                    }
-                    break;
-                case 5:
-                    //handler.InvokeScript(doc, "doFwdFixEdit", "/portal/myl/scMylBO013/doFwdFixEdit");
-                    break;
-                case 6:
-                    MessageBox.Show("Successfully Reserved.");
-                    Logout(doc, WebBrowser.DocumentText);
-                    Application.Exit();
-                    break;
-                    
-            }*/
-#endregion
-                pageStep++;
         }
 
         Dictionary<string, int> FetchAvailableRoomAndDates(IHtmlDocument docText)

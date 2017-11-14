@@ -30,33 +30,6 @@ namespace LibraryroomReserverGUI
         {
             SelectMenu(doc, "selSearchRoom", $"001{room - 3}");
             ChangeText(doc, "searchDate", $"{DateTime.Now.ToString("yyyy")}/{date.Substring(0, 2)}/{date.Substring(3, 2)}");
-
-            /*
-            DateTime present = DateTime.Now;
-            DateTime reservationFrom = new DateTime(present.Year, present.Month, present.Day, Convert.ToInt32(data.fromTime.Split(':')[0]), Convert.ToInt32(data.fromTime.Split(':')[1]), 0);
-            present = present.AddDays(7);
-            DateTime reservationTo = new DateTime(present.Year, present.Month, present.Day, Convert.ToInt32(data.toTime.Split(':')[0]), Convert.ToInt32(data.toTime.Split(':')[1]), 0);
-            ChangeText(doc, "reserveDateFrom", reservationFrom.ToShortDateString());
-            ChangeText(doc, "reserveDateTo", reservationTo.ToShortDateString());
-            SelectMenu(doc, "selReserveTimeFromH", reservationFrom.ToString("HH"));
-            SelectMenu(doc, "selReserveTimeFromM", reservationFrom.ToString("mm"));
-            SelectMenu(doc, "selReserveTimeToH", reservationTo.ToString("HH"));
-            SelectMenu(doc, "selReserveTimeToM", reservationTo.ToString("mm"));
-            
-            Check(doc, "rdoIntervalEveryweek");
-            for (int i = 1; i <= 7; i++)
-            {
-                if (data.Translate(i)[typeof(bool)])
-                {
-                    Check(doc, $"itemCheckA00{i}");
-                }
-            }
-
-            ChangeText(doc, "reserveName", data.reason);
-
-            ChangeText(doc, "personCount", data.numberOfPeople.ToString());
-            */
-
         }
 
         public void CheckAvailableReservations(HtmlDocument doc) => doc.GetElementById("itemCheckA000").InvokeMember("Click");
