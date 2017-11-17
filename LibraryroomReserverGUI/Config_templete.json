@@ -1,0 +1,17 @@
+﻿{
+  "id": "",
+  "pass": "",
+  "day": {
+    "Monday": true,
+    "Tuesday": false,
+    "Wednesday": false,
+    "Thursday": false,
+    "Friday": true,
+    "Saturday": false,
+    "Sunday": false
+  },
+  "fromTime": "18:10",
+  "toTime": "20:30",
+  "reason": "部活のミーティング",
+  "numberOfPeople": 18
+}

@@ -33,7 +33,7 @@ namespace LibraryroomReserverGUI
             // Navigate to login form
             WebBrowser.Navigate(new Uri("https://opac.lib.niigata-u.ac.jp/portal/portal/portalBoothStatus/?lang=ja&roomGroupId=01"));
         }
-        
+
         LibraryPageHandler handler = new LibraryPageHandler();
         HtmlParser parser = new HtmlParser();
 
@@ -83,9 +83,18 @@ namespace LibraryroomReserverGUI
             }
             if (IsPageURL("https://opac.lib.niigata-u.ac.jp/portal/myl/scMylBO001/doForwardNewRequest"))
             {
-                KeyValuePair<string, int> availableDate = availableDates.First();
-                handler.ApplyReservationData(doc, data, availableDate.Value, availableDate.Key);
-                handler.InvokeScript(doc, "doSearch", "/portal/myl/scMylBO002/doForwardSearch");
+                if (availableDates.Count > 0)
+                {
+                    KeyValuePair<string, int> availableDate = availableDates.First();
+                    handler.ApplyReservationData(doc, data, availableDate.Value, availableDate.Key);
+                    availableDates.Remove(availableDate.Key);
+                    handler.InvokeScript(doc, "doSearch", "/portal/myl/scMylBO002/doForwardSearch");
+                }
+                else
+                {
+                    MessageBox.Show("予約可能な時間帯がありません。");
+                    Application.Exit();
+                }
             }
             if (IsPageURL("https://opac.lib.niigata-u.ac.jp/portal/myl/scMylBO002/doForwardSearch"))
             {
@@ -98,15 +107,22 @@ namespace LibraryroomReserverGUI
             }
             if (IsPageURL("https://opac.lib.niigata-u.ac.jp/portal/myl/scMylBO003/doForwardConfirm"))
             {
-                // Dictionaryにまだアイテムが有るなら
-                handler.InvokeScript(doc, "doForwardNew", "/portal/myl/scMylBO004/doForwardNew");
+                if (availableDates.Count > 0)
+                {
+                    handler.InvokeScript(doc, "doForwardNew", "/portal/myl/scMylBO004/doForwardNew");
+                }
+                else
+                {
+                    Application.Exit();
+                }
             }
             if (IsPageURL("https://opac.lib.niigata-u.ac.jp/portal/myl/scMylBO004/doForwardNew"))
             {
-                /*
-                    handler.ApplyReservationData(doc, data, availableDate.Value, availableDate.Key);
-                    handler.InvokeScript(doc, "doSearch", "/portal/myl/scMylBO002/doForwardSearch");
-                */
+                KeyValuePair<string, int> availableDate = availableDates.First();
+                handler.ApplyReservationData(doc, data, availableDate.Value, availableDate.Key);
+                availableDates.Remove(availableDate.Key);
+                handler.InvokeScript(doc, "doSearch", "/portal/myl/scMylBO002/doForwardSearch");
+
             }
         }
 
